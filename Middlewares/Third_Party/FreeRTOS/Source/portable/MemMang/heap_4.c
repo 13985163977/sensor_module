@@ -1,4 +1,4 @@
-/*动态内存管理实现
+/*
  * FreeRTOS Kernel V10.3.1
  * Copyright (C) 2020 Amazon.com, Inc. or its affiliates.  All Rights Reserved.
  *

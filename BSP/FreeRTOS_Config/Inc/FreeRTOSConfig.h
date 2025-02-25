@@ -1,5 +1,5 @@
 /* USER CODE BEGIN Header */
-/*
+/*内核参数配置（任务数、堆大小等）
  * FreeRTOS Kernel V10.3.1
  * Portion Copyright (C) 2017 Amazon.com, Inc. or its affiliates.  All Rights Reserved.
  * Portion Copyright (C) 2019 StMicroelectronics, Inc.  All Rights Reserved.

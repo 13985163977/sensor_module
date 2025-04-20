@@ -8,7 +8,7 @@
 HardwareSerial Serial3(USART3);  // RX=PB11, TX=PB10
 RCParser rc(&Serial3);
 
-// 串口初始化（仅保留一份）
+// 串口初始化
 HardwareSerial Serial2(USART2); // PA3(RX), PA2(TX)
 HardwareSerial Serial4(PA1, PC10);  // RX=PA1, TX=PC10
 HardwareSerial Serial5(PD2, PC12);  // RX=PD2, TX=PC12
@@ -32,10 +32,6 @@ const int TIME_DIFF_THRESHOLD = 100; //时间差阈值
 // UW数据存储
 volatile int uw1_distance = -1;
 volatile int uw2_distance = -1;
-// bool vertical = false;
-// unsigned long trigger_time = 0;
-// bool timing = false;
-
 
 // 回调函数实现
 void updateUW1(int distance) { uw1_distance = distance; }

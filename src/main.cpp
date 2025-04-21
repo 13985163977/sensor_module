@@ -101,6 +101,6 @@ void sendCombinedData(float yaw) {
     char buffer[40];
     snprintf(buffer, sizeof(buffer), 
         "YAW:%.3f\r\n",  
-        yaw);              //移除boundary参数
+        yaw);              // 格式化数据
     Serial1.print(buffer);
 }

@@ -9,8 +9,8 @@ private:
     uint8_t _index = 0;
     
 public:
-    // 存储提取的通道数据 (1,3,5,6,7,8)
-    int channels[6] = {0}; 
+    // 存储提取的通道数据 (1,3,6,8)
+    int channels[4] = {0};  // 修改数组大小为4
 
     RCParser(HardwareSerial* serial) : _serial(serial) {}
 
@@ -45,13 +45,11 @@ public:
                     for(int i=0; i<33; i++) calc_xor ^= _buffer[i];
                     
                     if(calc_xor == byte) {
-                        // 提取通道1,3,5,6,7,8 (对应数组索引0,2,4,5,6,7)
+                        // 提取通道1,3,6,8 (对应数组索引0,1,2,3)
                         channels[0] = (_buffer[0]<<8) | _buffer[1];   // ch1
                         channels[1] = (_buffer[4]<<8) | _buffer[5];   // ch3
-                        channels[2] = (_buffer[8]<<8) | _buffer[9];   // ch5
-                        channels[3] = (_buffer[10]<<8)| _buffer[11];  // ch6
-                        channels[4] = (_buffer[12]<<8)| _buffer[13];  // ch7
-                        channels[5] = (_buffer[14]<<8)| _buffer[15];  // ch8
+                        channels[2] = (_buffer[10]<<8)| _buffer[11];  // ch6
+                        channels[3] = (_buffer[14]<<8)| _buffer[15];  // ch8
                         
                         sendRCData();
                     }
@@ -66,9 +64,9 @@ private:
     void sendRCData() {
         char buffer[60];
         snprintf(buffer, sizeof(buffer),
-            "RC:%d,%d,%d,%d,%d,%d\r\n",
-            channels[0], channels[1], channels[2],
-            channels[3], channels[4], channels[5]);
+            "RC:%d,%d,%d,%d\r\n",  // 修改为4个参数
+            channels[0], channels[1], 
+            channels[2], channels[3]);
         Serial1.print(buffer);
     }
 };

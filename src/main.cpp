@@ -108,9 +108,9 @@ void setup() {
 // sendCombinedData实现
 void sendCombinedData(float yaw) {
     // 支持 JSON 格式输出
-    char buffer[60];
+    char buffer[80];
     snprintf(buffer, sizeof(buffer), 
-        "{\"yaw\":%.3f,\"uw1_distance\":%d,\"uw2_distance\":%d}\r\n",  
-        yaw, uw1_distance, uw2_distance);
+        "{\"yaw\":%.3f,\"uw1_distance\":%d,\"uw2_distance\":%d,\"rc_channels\":[%d,%d,%d]}\r\n",  
+        yaw, uw1_distance, uw2_distance, rc.channels[0], rc.channels[1], rc.channels[2]);
     Serial1.print(buffer);
 }

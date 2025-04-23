@@ -38,14 +38,18 @@ public:
             
             // 状态机解析
             switch(_state) {
+#define FRAME_HEADER 0x68
+
                 case SYNC_HEADER:
-                    if(byte == 0x68) {  // 同步帧头
+                    if(byte == FRAME_HEADER) {
                         _state = SYNC_LENGTH;
                     }
                     break;
                     
                 case SYNC_LENGTH:
-                    if(byte == 0x0D) {  // 验证数据长度
+#define DATA_LENGTH 0x0D
+
+                    if(byte == DATA_LENGTH) {
                         _state = SYNC_ADDRESS;
                     } else {
                         _state = SYNC_HEADER;
@@ -53,7 +57,9 @@ public:
                     break;
                     
                 case SYNC_ADDRESS:
-                    if(byte == 0x00) {  // 验证地址码
+#define ADDRESS_CODE 0x00
+
+                    if(byte == ADDRESS_CODE) {
                         _state = SYNC_CMD;
                     } else {
                         _state = SYNC_HEADER;
@@ -61,7 +67,9 @@ public:
                     break;
                     
                 case SYNC_CMD:
-                    if(byte == 0x84) {  // 确认命令字
+#define COMMAND_BYTE 0x84
+
+                    if(byte == COMMAND_BYTE) {
                         _index = 0;
                         _dataLength = 9;  // 数据域9字节
                         _state = DATA_COLLECT;
@@ -105,8 +113,6 @@ public:
         // 使用安全格式化并添加等号
         snprintf(buffer, sizeof(buffer), "yaw=%.3f\r\n", yaw);
         // 改为调用组合输出
-        sendCombinedData(yaw); // 替换原有的_sendSerial->write(buffer)
-        // 调用全局输出函数
-        sendCombinedData(yaw); // 现在可以正确调用全局函数
+        sendCombinedData(yaw);
     }
 };

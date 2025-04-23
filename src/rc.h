@@ -50,7 +50,6 @@ public:
                         channels[1] = (_buffer[4]<<8) | _buffer[5];   // ch3
                         channels[2] = (_buffer[10]<<8)| _buffer[11];  // ch6
                         
-                        sendRCData();
                     }
                     _state = HEADER;
                     break;
@@ -59,12 +58,4 @@ public:
         }
     }
 
-private:
-    void sendRCData() {
-        char buffer[60];
-        snprintf(buffer, sizeof(buffer),
-            "RC:%d,%d,%d\r\n",
-            channels[0], channels[1], channels[2]);
-        Serial1.print(buffer);
-    }
 };

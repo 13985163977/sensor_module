@@ -100,9 +100,17 @@ void initPWM() {
     TIM3->CCMR2 |= TIM_CCMR2_OC3PE | TIM_CCMR2_OC4PE;  // 预装载使能
     TIM3->CCER |= TIM_CCER_CC3E | TIM_CCER_CC4E;  // 捕获/比较使能
 
-    // 设置占空比 (5% 和 10%)
-    TIM3->CCR3 = 1000;  // 5% 占空比: ARR * 0.05
-    TIM3->CCR4 = 2000;  // 10% 占空比: ARR * 0.10
+    // 设置占空比 (2.5% 和 12.5%)
+    TIM3->CCR3 = 500;   // 2.5% 占空比: ARR * 0.025
+    TIM3->CCR4 = 2500;  // 12.5% 占空比: ARR * 0.125
+
+    // 输出定时器配置参数用于调试
+    Serial1.print("PSC: ");
+    Serial1.println(TIM3->PSC);
+    Serial1.print("ARR: ");
+    Serial1.println(TIM3->ARR);
+    Serial1.print("Frequency: ");
+    Serial1.println(72000000.0 / ((TIM3->PSC + 1) * (TIM3->ARR + 1)));
 
     // 启动计数器
     TIM3->CR1 |= TIM_CR1_CEN;
@@ -113,8 +121,8 @@ void setServoAngle(int servo, float angle) {
     if (angle < -180) angle = -180;
     if (angle > 180) angle = 180;
 
-    // 将角度转换为占空比 (5% ~ 10%)
-    float dutyCycle = 5.0 + ((angle + 180) / 360.0) * 5.0;
+    // 将角度转换为占空比 (2.5% ~ 12.5%)
+    float dutyCycle = 2.5 + ((angle + 180) / 360.0) * 10.0;
     uint32_t ccrValue = (uint32_t)(dutyCycle / 100.0 * 20000);
 
     if (servo == 1) {
